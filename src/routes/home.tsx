@@ -49,7 +49,7 @@ function HomePage() {
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0">
       {/* Top Bar */}
-      <header className="sticky top-0 z-40 bg-card/90 backdrop-blur-md border-b border-border">
+      <header className="sticky top-0 z-50 bg-white/30 dark:bg-black/30 backdrop-blur-xl border-b border-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
         <div className="section-container flex items-center justify-between h-16">
           <div>
             <p className="text-sm text-muted-foreground">{greeting} 👋</p>
