@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import {
   Search, ShieldCheck, Users, Star, Stethoscope, Heart, Brain,
   Eye, Bone, Activity, CheckCircle, ArrowRight, Zap, Video, Clock,
@@ -24,12 +25,12 @@ export const Route = createFileRoute("/")({
 });
 
 const categories = [
-  { icon: Stethoscope, label: "General Physician", color: "oklch(0.55 0.14 175)" },
-  { icon: Heart, label: "Cardiologist", color: "oklch(0.6 0.22 25)" },
-  { icon: Brain, label: "Neurologist", color: "oklch(0.55 0.18 280)" },
-  { icon: Eye, label: "Ophthalmologist", color: "oklch(0.6 0.15 230)" },
-  { icon: Bone, label: "Orthopedic", color: "oklch(0.65 0.15 55)" },
-  { icon: Activity, label: "Dermatologist", color: "oklch(0.6 0.16 330)" },
+  { icon: Stethoscope, label: "General Physician", color: "oklch(0.55 0.14 175)", desc: "Primary care, fever, cold, and routine health checkups." },
+  { icon: Heart, label: "Cardiologist", color: "oklch(0.6 0.22 25)", desc: "Expert care for heart health, blood pressure, and cardiovascular conditions." },
+  { icon: Brain, label: "Neurologist", color: "oklch(0.55 0.18 280)", desc: "Specialist treatment for brain, spinal cord, and nervous system disorders." },
+  { icon: Eye, label: "Ophthalmologist", color: "oklch(0.6 0.15 230)", desc: "Comprehensive vision care, eye diseases, and optical surgeries." },
+  { icon: Bone, label: "Orthopedic", color: "oklch(0.65 0.15 55)", desc: "Advanced treatment for bones, joints, ligaments, tendons, and muscles." },
+  { icon: Activity, label: "Dermatologist", color: "oklch(0.6 0.16 330)", desc: "Specialized care for skin conditions, hair loss, and cosmetic dermatology." },
 ];
 
 const steps = [
@@ -45,6 +46,8 @@ const testimonials = [
 ];
 
 function LandingPage() {
+  const [hoveredStep, setHoveredStep] = useState<number | null>(null);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -58,11 +61,11 @@ function LandingPage() {
                 <span className="trust-badge"><ShieldCheck size={15} /> Verified Doctors</span>
                 <span className="trust-badge"><Star size={15} /> 4.8+ Rating</span>
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-[1.1] mb-4">
+              <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight text-foreground leading-[1.1] mb-6">
                 Book Doctor Appointments{" "}
                 <span className="text-primary">Easily & Instantly</span>
               </h1>
-              <p className="text-lg text-muted-foreground mb-8 max-w-lg leading-relaxed">
+              <p className="text-lg text-muted-foreground mb-10 max-w-lg leading-relaxed">
                 Verified doctors, instant slot booking, zero waiting time. Your health, simplified.
               </p>
               <SearchBar />
@@ -76,87 +79,184 @@ function LandingPage() {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="hidden md:block"
+              className="hidden md:block relative perspective-1000"
             >
-              <img
-                src={heroImage}
-                alt="Trusted team of healthcare professionals"
-                className="rounded-3xl shadow-2xl w-full"
-                width={1280}
-                height={720}
-              />
+              {/* Massive continuous physics loop (Float, Scale, Rotate) */}
+              <motion.div
+                animate={{ 
+                  y: [0, -18, 0], 
+                  scale: [1, 1.025, 1], 
+                  rotate: [0, -1.5, 0] 
+                }}
+                transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+                className="relative"
+              >
+                {/* Static base shadow container */}
+                <div className="absolute inset-0 rounded-[2.5rem] shadow-[0_20px_50px_-15px_rgba(0,0,0,0.15)] pointer-events-none" />
+                
+                {/* Dynamically pulsing deep shadow and color wash */}
+                <motion.div 
+                  animate={{ opacity: [0, 1, 0] }}
+                  transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+                  className="absolute inset-0 rounded-[2.5rem] shadow-[0_40px_80px_-20px_rgba(var(--color-primary),0.3)] bg-gradient-to-tr from-primary/20 via-transparent to-transparent z-10 pointer-events-none mix-blend-overlay" 
+                />
+                
+                <img
+                  src={heroImage}
+                  alt="Trusted team of healthcare professionals"
+                  className="rounded-[2.5rem] border border-white/20 dark:border-white/10 w-full relative z-0"
+                  width={1280}
+                  height={720}
+                />
+              </motion.div>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Categories */}
-      <section id="categories" className="py-16 md:py-20">
-        <div className="section-container">
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground">Browse by Specialty</h2>
-            <p className="text-muted-foreground mt-2">Find the right care for your needs</p>
+      <section id="categories" className="py-16 md:py-20 relative overflow-hidden bg-muted/20">
+        {/* Visible background image */}
+        <div 
+          className="absolute inset-0 z-0 opacity-40 mix-blend-multiply dark:mix-blend-screen pointer-events-none"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1551076805-e18690c5e561?q=80&w=2000&auto=format&fit=crop')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundAttachment: "fixed"
+          }}
+        />
+        {/* Soft edge fade so it doesn't look like a harsh block */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-background via-transparent to-background pointer-events-none" />
+        
+        <div className="section-container relative z-10">
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">Browse by Specialty</h2>
+            <p className="text-muted-foreground mt-4 text-lg">Find the right care for your needs</p>
           </motion.div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {categories.map((c, i) => (
-              <CategoryCard key={c.label} icon={c.icon} label={c.label} color={c.color} delay={i * 0.08} />
+              <CategoryCard key={c.label} icon={c.icon} label={c.label} color={c.color} desc={c.desc} delay={i * 0.1} />
             ))}
           </div>
         </div>
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works" className="py-16 md:py-20 bg-muted/50">
-        <div className="section-container">
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground">How It Works</h2>
-            <p className="text-muted-foreground mt-2">Book your appointment in 3 simple steps</p>
+      <section id="how-it-works" className="py-16 md:py-24 relative overflow-hidden bg-muted/30">
+        {/* Visible background image */}
+        <div 
+          className="absolute inset-0 z-0 opacity-40 mix-blend-multiply dark:mix-blend-screen pointer-events-none"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=2000&auto=format&fit=crop')`, // Clinical/modern texture
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundAttachment: "fixed"
+          }}
+        />
+        {/* Soft edge fade so it blends into the page flawlessly */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-background via-transparent to-background pointer-events-none" />
+
+        <div className="section-container relative z-10">
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">How It Works</h2>
+            <p className="text-muted-foreground mt-4 text-lg">Book your appointment in 3 simple steps</p>
           </motion.div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {steps.map((step, i) => (
-              <motion.div
-                key={step.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.15, duration: 0.4 }}
-                className="text-center"
-              >
-                <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <step.icon size={28} className="text-primary" />
-                </div>
-                <div className="text-sm font-bold text-primary mb-1">Step {i + 1}</div>
-                <h3 className="text-lg font-bold text-foreground mb-1">{step.title}</h3>
-                <p className="text-sm text-muted-foreground">{step.desc}</p>
-              </motion.div>
-            ))}
+          
+          <div className="relative max-w-5xl mx-auto">
+            {/* Background dashed connecting line */}
+            <div className="hidden md:block absolute top-[4rem] left-[16.66%] right-[16.66%] border-t-[3px] border-dotted border-border/80 z-0" />
+            
+            {/* Animated foreground solid line */}
+            <div 
+              className="hidden md:block absolute top-[4rem] left-[16.66%] border-t-[3px] border-solid border-primary z-0 transition-all duration-700 ease-in-out text-primary" 
+              style={{ width: hoveredStep === null || hoveredStep === 0 ? '0%' : hoveredStep === 1 ? '50%' : '100%' }}
+            >
+               {/* Glowing dot leading the path */}
+               <div 
+                 className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 translate-x-1.5 rounded-full bg-primary shadow-[0_0_12px_4px_currentColor] transition-opacity duration-300" 
+                 style={{ opacity: hoveredStep ? 1 : 0 }} 
+               />
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6 relative z-10">
+              {steps.map((step, i) => (
+                <motion.div
+                  key={step.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.15, duration: 0.5 }}
+                  onMouseEnter={() => setHoveredStep(i)}
+                  onMouseLeave={() => setHoveredStep(null)}
+                  className={`card-elevated p-8 text-center transition-all duration-500 border border-transparent bg-card overflow-hidden relative group
+                    ${hoveredStep === i ? 'shadow-[0_15px_40px_-5px_rgba(0,0,0,0.1)] shadow-primary/20 ring-1 ring-primary/40 -translate-y-2' : ''}
+                    ${hoveredStep !== null && i === hoveredStep + 1 ? 'border-primary/20 shadow-xl -translate-y-1 bg-primary/[0.02]' : ''}
+                    ${hoveredStep !== null && i < hoveredStep ? 'scale-[0.98] blur-[1px] opacity-80' : ''}
+                  `}
+                >
+                  <div className={`w-16 h-16 rounded-2xl mx-auto mb-6 flex items-center justify-center transition-all duration-500
+                    ${hoveredStep === i ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/40 scale-110' : 'bg-primary/10 text-primary'}
+                    ${hoveredStep !== null && i === hoveredStep + 1 ? 'bg-primary/20 scale-105' : ''}
+                  `}>
+                    <step.icon size={28} className={hoveredStep === i ? 'text-primary-foreground' : 'text-primary'} />
+                  </div>
+                  
+                  <div className={`text-sm font-bold mb-2 transition-colors duration-500 ${hoveredStep === i ? 'text-primary' : 'text-primary/70'}`}>Step {i + 1}</div>
+                  <h3 className="text-xl font-bold text-foreground mb-3">{step.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{step.desc}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Quick Actions */}
-      <section className="py-16 md:py-20">
-        <div className="section-container">
-          <div className="grid md:grid-cols-3 gap-6">
+      <section className="py-20 md:py-28 relative overflow-hidden">
+        {/* Ambient background glows so the glassmorphism pops */}
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[60%] bg-emergency/10 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[70%] bg-primary/10 blur-[120px] rounded-full pointer-events-none" />
+
+        <div className="section-container relative z-10">
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
             {[
-              { icon: Zap, title: "Emergency Booking", desc: "1-tap access to urgent care doctors available now", btn: "btn-emergency", label: "Book Emergency" },
-              { icon: Video, title: "Teleconsultation", desc: "Video call with specialists from the comfort of home", btn: "btn-primary", label: "Start Video Call" },
-              { icon: Activity, title: "AI Recommendations", desc: "Get personalized doctor suggestions based on symptoms", btn: "btn-secondary", label: "Get Recommendations" },
+              { 
+                icon: Zap, title: "Emergency Booking", desc: "1-tap access to urgent care doctors available now", btn: "btn-emergency", label: "Book Emergency", 
+                glowClass: "hover:shadow-emergency/30 hover:border-emergency/40", 
+                iconClass: "bg-emergency/10 text-emergency group-hover:bg-emergency group-hover:text-emergency-foreground group-hover:shadow-[0_0_20px_rgba(var(--color-emergency),0.4)]" 
+              },
+              { 
+                icon: Video, title: "Teleconsultation", desc: "Video call with specialists from the comfort of home", btn: "btn-primary", label: "Start Video Call", 
+                glowClass: "hover:shadow-primary/30 hover:border-primary/40", 
+                iconClass: "bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:shadow-[0_0_20px_rgba(var(--color-primary),0.4)]" 
+              },
+              { 
+                icon: Activity, title: "AI Recommendations", desc: "Get personalized doctor suggestions based on symptoms", btn: "btn-secondary", label: "Get Recommendations", 
+                glowClass: "hover:shadow-foreground/10 hover:border-foreground/30", 
+                iconClass: "bg-foreground/5 text-foreground group-hover:bg-foreground group-hover:text-background group-hover:shadow-lg" 
+              },
             ].map((item, i) => (
               <motion.div
                 key={item.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="card-elevated p-6 flex flex-col"
+                transition={{ delay: i * 0.15, duration: 0.5 }}
+                className={`p-8 flex flex-col rounded-3xl transition-all duration-500 border group cursor-default
+                  bg-white/40 dark:bg-black/30 backdrop-blur-2xl border-white/40 dark:border-white/10 
+                  shadow-[0_8px_32px_0_rgba(0,0,0,0.05)]
+                  ${item.glowClass} hover:-translate-y-2 hover:shadow-2xl
+                `}
               >
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                  <item.icon size={24} className="text-primary" />
+                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-all duration-500 ease-out ${item.iconClass}`}>
+                  <item.icon size={28} className="transition-transform duration-300 group-hover:scale-110" />
                 </div>
-                <h3 className="text-lg font-bold text-foreground mb-1">{item.title}</h3>
-                <p className="text-sm text-muted-foreground mb-4 flex-1">{item.desc}</p>
-                <button className={`${item.btn} text-sm w-full`}>{item.label}</button>
+                <h3 className="text-xl font-bold tracking-tight text-foreground mb-3">{item.title}</h3>
+                <p className="text-sm text-muted-foreground mb-8 flex-1 leading-relaxed">{item.desc}</p>
+                <button className={`w-full py-3.5 rounded-xl text-sm font-bold shadow-sm transition-all duration-300 ${item.btn === 'btn-secondary' ? 'bg-background hover:bg-muted text-foreground border border-border group-hover:border-foreground/50' : item.btn}`}>
+                  {item.label}
+                </button>
               </motion.div>
             ))}
           </div>
@@ -164,15 +264,33 @@ function LandingPage() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 md:py-20 bg-muted/50">
-        <div className="section-container">
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground">What Patients Say</h2>
-            <p className="text-muted-foreground mt-2">Trusted by millions across the country</p>
+      <section className="py-20 md:py-28 relative overflow-hidden bg-muted/40">
+        {/* Visible background image */}
+        <div 
+          className="absolute inset-0 z-0 opacity-40 mix-blend-multiply dark:mix-blend-screen pointer-events-none"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=2000&auto=format&fit=crop')`, // Clean laboratory / clinical bokeh
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundAttachment: "fixed"
+          }}
+        />
+        {/* Ambient background glows for extra glass punch */}
+        <div className="absolute top-1/4 -right-1/4 w-[50%] h-[50%] bg-primary/20 blur-[120px] rounded-full pointer-events-none z-0" />
+        <div className="absolute bottom-1/4 -left-1/4 w-[50%] h-[50%] bg-emergency/10 blur-[120px] rounded-full pointer-events-none z-0" />
+        
+        {/* Soft edge fade  */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-background via-transparent to-background pointer-events-none" />
+
+        <div className="section-container relative z-10">
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">What Patients Say</h2>
+            <p className="text-muted-foreground mt-4 text-lg">Trusted by millions across the country</p>
           </motion.div>
-          <div className="grid md:grid-cols-3 gap-6">
+          
+          <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
             {testimonials.map((t, i) => (
-              <TestimonialCard key={t.name} {...t} delay={i * 0.1} />
+              <TestimonialCard key={t.name} {...t} delay={i * 0.15} />
             ))}
           </div>
         </div>
@@ -182,10 +300,10 @@ function LandingPage() {
       <section className="py-20 md:py-28">
         <div className="section-container text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-6">
               Ready to take charge of your health?
             </h2>
-            <p className="text-lg text-muted-foreground mb-8 max-w-lg mx-auto">
+            <p className="text-xl text-muted-foreground mb-10 max-w-xl mx-auto leading-relaxed">
               Join 2 million+ patients who trust MedBook for their healthcare needs.
             </p>
             <button className="btn-primary text-lg py-4 px-8">

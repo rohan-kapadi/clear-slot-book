@@ -93,32 +93,24 @@ function NotificationPanel({ notifs, onMarkAllRead, onMarkRead, onClose }: Notif
   const unreadCount = notifs.filter((n) => !n.read).length;
 
   return (
-    <motion.div
-      key="notif-panel"
-      initial={{ opacity: 0, y: -8, scale: 0.96 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -8, scale: 0.96 }}
-      transition={{ type: "spring", damping: 30, stiffness: 380, duration: 0.25 }}
-      className="absolute right-0 top-full mt-2 w-[360px] max-w-[calc(100vw-2rem)] bg-card rounded-2xl shadow-2xl border border-border overflow-hidden z-50"
-      style={{ transformOrigin: "top right" }}
-    >
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3.5 border-b border-border">
-        <div className="flex items-center gap-2">
-          <h3 className="font-bold text-foreground text-base">Notifications</h3>
-          {unreadCount > 0 && (
-            <span className="text-[11px] font-bold bg-primary text-primary-foreground px-2 py-0.5 rounded-full">
-              {unreadCount} new
-            </span>
-          )}
-        </div>
-        <div className="flex items-center gap-1">
-          {unreadCount > 0 && (
-            <button
-              onClick={onMarkAllRead}
-              className="text-xs font-semibold text-primary hover:underline px-2 py-1 rounded-lg hover:bg-primary/8 transition-colors"
-            >
-              Mark all read
+    <div className="min-h-screen bg-background pb-20 md:pb-0">
+      {/* Top Bar */}
+      <header className="sticky top-0 z-50 bg-white/30 dark:bg-black/30 backdrop-blur-xl border-b border-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+        <div className="section-container flex items-center justify-between h-16">
+          <div>
+            <p className="text-sm text-muted-foreground">{greeting} 👋</p>
+            <p className="text-base font-bold text-foreground">Rohan</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <button className="btn-secondary py-2 px-3 text-xs">
+              <MapPin size={14} /> Mumbai
+            </button>
+            <button className="w-9 h-9 rounded-full bg-muted flex items-center justify-center relative">
+              <Bell size={18} className="text-foreground" />
+              <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-emergency rounded-full border-2 border-card" />
+            </button>
+            <button className="w-9 h-9 rounded-full bg-primary flex items-center justify-center">
+              <User size={18} className="text-primary-foreground" />
             </button>
           )}
           <button

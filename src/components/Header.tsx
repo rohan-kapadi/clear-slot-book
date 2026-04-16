@@ -7,27 +7,27 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 bg-card/90 backdrop-blur-md border-b border-border">
+    <header className="sticky top-0 z-50 bg-white/30 dark:bg-black/30 backdrop-blur-xl border-b border-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
       <div className="section-container flex items-center justify-between h-16">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
+        <Link to="/" className="flex items-center gap-2 group">
+          <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center shadow-sm group-hover:shadow-primary/40 group-hover:-translate-y-0.5 transition-all duration-300">
             <span className="text-primary-foreground font-bold text-lg">M</span>
           </div>
-          <span className="font-heading text-xl font-bold text-foreground">MedBook</span>
+          <span className="font-heading text-xl font-bold text-foreground tracking-tight">MedBook</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8">
-          <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Home</Link>
-          <Link to="/home" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Dashboard</Link>
-          <a href="#categories" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Specialties</a>
-          <a href="#how-it-works" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">How It Works</a>
+        <nav className="hidden md:flex items-center gap-1 bg-white/40 dark:bg-black/20 backdrop-blur-md px-1.5 py-1.5 rounded-full border border-white/20 shadow-sm">
+          <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-primary hover:bg-white/60 dark:hover:bg-white/10 px-4 py-1.5 rounded-full transition-all duration-300">Home</Link>
+          <Link to="/home" className="text-sm font-medium text-muted-foreground hover:text-primary hover:bg-white/60 dark:hover:bg-white/10 px-4 py-1.5 rounded-full transition-all duration-300">Dashboard</Link>
+          <a href="#categories" className="text-sm font-medium text-muted-foreground hover:text-primary hover:bg-white/60 dark:hover:bg-white/10 px-4 py-1.5 rounded-full transition-all duration-300">Specialties</a>
+          <a href="#how-it-works" className="text-sm font-medium text-muted-foreground hover:text-primary hover:bg-white/60 dark:hover:bg-white/10 px-4 py-1.5 rounded-full transition-all duration-300">How It Works</a>
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
-          <a href="tel:+1800123456" className="btn-secondary text-sm py-2 px-3">
-            <Phone size={16} /> Emergency
+          <a href="tel:+1800123456" className="btn-secondary rounded-full border-border/50 hover:border-emergency/30 hover:bg-emergency/5 hover:text-emergency text-sm py-2 px-4 shadow-sm transition-all duration-300 group">
+            <Phone size={16} className="text-muted-foreground group-hover:text-emergency transition-colors" /> Emergency
           </a>
-          <button className="btn-primary text-sm py-2 px-4">Book Now</button>
+          <button className="btn-primary rounded-full shadow-md hover:shadow-primary/40 hover:-translate-y-0.5 text-sm py-2 px-6 transition-all duration-300">Book Now</button>
         </div>
 
         <button className="md:hidden p-2" onClick={() => setOpen(!open)} aria-label="Toggle menu">
