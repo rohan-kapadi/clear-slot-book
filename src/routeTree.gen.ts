@@ -11,6 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as HomeIndexRouteImport } from './routes/home/index'
+import { Route as HomeSearchRouteImport } from './routes/home/search'
+import { Route as HomeProfileRouteImport } from './routes/home/profile'
+import { Route as HomeAppointmentsRouteImport } from './routes/home/appointments'
 
 const HomeRoute = HomeRouteImport.update({
   id: '/home',
@@ -22,31 +26,75 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HomeIndexRoute = HomeIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HomeRoute,
+} as any)
+const HomeSearchRoute = HomeSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => HomeRoute,
+} as any)
+const HomeProfileRoute = HomeProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => HomeRoute,
+} as any)
+const HomeAppointmentsRoute = HomeAppointmentsRouteImport.update({
+  id: '/appointments',
+  path: '/appointments',
+  getParentRoute: () => HomeRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/home': typeof HomeRoute
+  '/home': typeof HomeRouteWithChildren
+  '/home/appointments': typeof HomeAppointmentsRoute
+  '/home/profile': typeof HomeProfileRoute
+  '/home/search': typeof HomeSearchRoute
+  '/home/': typeof HomeIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/home': typeof HomeRoute
+  '/home/appointments': typeof HomeAppointmentsRoute
+  '/home/profile': typeof HomeProfileRoute
+  '/home/search': typeof HomeSearchRoute
+  '/home': typeof HomeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/home': typeof HomeRoute
+  '/home': typeof HomeRouteWithChildren
+  '/home/appointments': typeof HomeAppointmentsRoute
+  '/home/profile': typeof HomeProfileRoute
+  '/home/search': typeof HomeSearchRoute
+  '/home/': typeof HomeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/home'
+  fullPaths:
+    | '/'
+    | '/home'
+    | '/home/appointments'
+    | '/home/profile'
+    | '/home/search'
+    | '/home/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/home'
-  id: '__root__' | '/' | '/home'
+  to: '/' | '/home/appointments' | '/home/profile' | '/home/search' | '/home'
+  id:
+    | '__root__'
+    | '/'
+    | '/home'
+    | '/home/appointments'
+    | '/home/profile'
+    | '/home/search'
+    | '/home/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  HomeRoute: typeof HomeRoute
+  HomeRoute: typeof HomeRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +113,56 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/home/': {
+      id: '/home/'
+      path: '/'
+      fullPath: '/home/'
+      preLoaderRoute: typeof HomeIndexRouteImport
+      parentRoute: typeof HomeRoute
+    }
+    '/home/search': {
+      id: '/home/search'
+      path: '/search'
+      fullPath: '/home/search'
+      preLoaderRoute: typeof HomeSearchRouteImport
+      parentRoute: typeof HomeRoute
+    }
+    '/home/profile': {
+      id: '/home/profile'
+      path: '/profile'
+      fullPath: '/home/profile'
+      preLoaderRoute: typeof HomeProfileRouteImport
+      parentRoute: typeof HomeRoute
+    }
+    '/home/appointments': {
+      id: '/home/appointments'
+      path: '/appointments'
+      fullPath: '/home/appointments'
+      preLoaderRoute: typeof HomeAppointmentsRouteImport
+      parentRoute: typeof HomeRoute
+    }
   }
 }
 
+interface HomeRouteChildren {
+  HomeAppointmentsRoute: typeof HomeAppointmentsRoute
+  HomeProfileRoute: typeof HomeProfileRoute
+  HomeSearchRoute: typeof HomeSearchRoute
+  HomeIndexRoute: typeof HomeIndexRoute
+}
+
+const HomeRouteChildren: HomeRouteChildren = {
+  HomeAppointmentsRoute: HomeAppointmentsRoute,
+  HomeProfileRoute: HomeProfileRoute,
+  HomeSearchRoute: HomeSearchRoute,
+  HomeIndexRoute: HomeIndexRoute,
+}
+
+const HomeRouteWithChildren = HomeRoute._addFileChildren(HomeRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  HomeRoute: HomeRoute,
+  HomeRoute: HomeRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

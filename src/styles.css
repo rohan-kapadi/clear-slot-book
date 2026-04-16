@@ -133,7 +133,92 @@
   }
 }
 
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @layer components {
+  .section-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted-foreground);
+  }
+
+  /* Soothing background for home app shell only — not the landing page */
+  .app-bg {
+    background:
+      radial-gradient(ellipse 80% 60% at 0% 0%, oklch(0.94 0.025 175 / 0.55) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 50% at 100% 100%, oklch(0.93 0.022 260 / 0.45) 0%, transparent 65%),
+      radial-gradient(ellipse 70% 70% at 50% 50%, oklch(0.96 0.012 210 / 0.3) 0%, transparent 100%),
+      oklch(0.966 0.008 200);
+  }
+
+  /* Sidebar gets a slightly elevated surface */
+  .sidebar-bg {
+    background: oklch(0.99 0.003 200);
+  }
+
+  /* Topbar subtle glass against the tinted bg */
+  .topbar-glass {
+    background: oklch(0.99 0.004 200 / 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  /* ─────────────────────────────────────────────
+     HOME APP TYPOGRAPHY
+     Scoped entirely inside .home-app so the
+     landing page keeps its original Inter stack.
+  ───────────────────────────────────────────── */
+  .home-app,
+  .home-app input,
+  .home-app button,
+  .home-app select,
+  .home-app textarea {
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  }
+
+  /* Headings get tighter tracking + extra weight punch */
+  .home-app h1,
+  .home-app h2,
+  .home-app h3,
+  .home-app h4,
+  .home-app h5,
+  .home-app h6 {
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+  }
+
+  /* Brand name in the sidebar */
+  .home-app .brand-name {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+  }
+
+  /* Stat numbers: tabular, ultra-bold */
+  .home-app .stat-number {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.04em;
+  }
+
+  /* Section labels: spaced caps look */
+  .home-app .section-label {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    letter-spacing: 0.07em;
+  }
+
   .section-container {
     width: 100%;
     max-width: 1200px;
