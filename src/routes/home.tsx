@@ -81,7 +81,7 @@ const notifIconMap: Record<NotifType, { icon: typeof Bell; color: string; bg: st
 
 /* ══════════════════════════════
    NOTIFICATION PANEL
-══════════════════════════════ */
+   ══════════════════════════════ */
 interface NotifPanelProps {
   notifs: Notification[];
   onMarkAllRead: () => void;
@@ -93,24 +93,25 @@ function NotificationPanel({ notifs, onMarkAllRead, onMarkRead, onClose }: Notif
   const unreadCount = notifs.filter((n) => !n.read).length;
 
   return (
-    <div className="min-h-screen bg-background pb-20 md:pb-0">
-      {/* Top Bar */}
-      <header className="sticky top-0 z-50 bg-white/30 dark:bg-black/30 backdrop-blur-xl border-b border-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
-        <div className="section-container flex items-center justify-between h-16">
-          <div>
-            <p className="text-sm text-muted-foreground">{greeting} 👋</p>
-            <p className="text-base font-bold text-foreground">Rohan</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <button className="btn-secondary py-2 px-3 text-xs">
-              <MapPin size={14} /> Mumbai
-            </button>
-            <button className="w-9 h-9 rounded-full bg-muted flex items-center justify-center relative">
-              <Bell size={18} className="text-foreground" />
-              <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-emergency rounded-full border-2 border-card" />
-            </button>
-            <button className="w-9 h-9 rounded-full bg-primary flex items-center justify-center">
-              <User size={18} className="text-primary-foreground" />
+    <motion.div
+      initial={{ opacity: 0, scale: 0.96, y: -8 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.96, y: -8 }}
+      transition={{ duration: 0.2, ease: "easeOut" }}
+      className="absolute right-0 top-12 w-80 bg-card border border-border rounded-2xl shadow-2xl overflow-hidden z-50"
+    >
+      {/* Panel header */}
+      <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/30">
+        <div className="flex items-center gap-2">
+          <p className="text-sm font-bold text-foreground">Notifications</p>
+          {unreadCount > 0 && (
+            <span className="text-[10px] font-bold text-primary-foreground bg-primary px-1.5 py-0.5 rounded-full">{unreadCount}</span>
+          )}
+        </div>
+        <div className="flex items-center gap-1">
+          {unreadCount > 0 && (
+            <button onClick={onMarkAllRead} className="text-[11px] font-semibold text-primary hover:underline px-1">
+              Mark all read
             </button>
           )}
           <button
@@ -187,7 +188,7 @@ function NotificationPanel({ notifs, onMarkAllRead, onMarkRead, onClose }: Notif
 
 /* ══════════════════════════════
    HOME LAYOUT
-══════════════════════════════ */
+   ══════════════════════════════ */
 function HomeLayout() {
   const location = useLocation();
   const hour = new Date().getHours();
