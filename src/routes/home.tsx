@@ -27,6 +27,7 @@ export const Route = createFileRoute("/home")({
 const navItems = [
   { to: "/home", icon: Home, label: "Home", exact: true },
   { to: "/home/appointments", icon: Calendar, label: "Appointments", exact: false },
+  { to: "/home/medications", icon: Pill, label: "Medications", exact: false },
   { to: "/home/search", icon: Search, label: "Find Doctor", exact: false },
   { to: "/home/profile", icon: User, label: "Profile", exact: false },
 ] as const;
@@ -107,31 +108,33 @@ function NotificationPanel({ notifs, onMarkAllRead, onMarkRead, onClose }: Notif
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.96, y: -8 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.96, y: -8 }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
-      className="absolute right-0 top-12 w-80 bg-card border border-border rounded-2xl shadow-2xl overflow-hidden z-50"
+      key="notif-panel"
+      initial={{ opacity: 0, y: -8, scale: 0.96 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -8, scale: 0.96 }}
+      transition={{ type: "spring", damping: 30, stiffness: 380, duration: 0.25 }}
+      className="absolute right-0 top-full mt-2 w-[360px] max-w-[calc(100vw-2rem)] bg-card rounded-2xl shadow-2xl border border-border overflow-hidden z-50"
+      style={{ transformOrigin: "top right" }}
     >
-      {/* Panel header section */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/30">
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-3.5 border-b border-border">
         <div className="flex items-center gap-2">
-          <p className="text-sm font-bold text-foreground">Notifications</p>
-          {unreadCount > 0 ? (
-            <span className="text-[10px] font-bold text-primary-foreground bg-primary px-1.5 py-0.5 rounded-full">
-              {unreadCount}
+          <h3 className="font-bold text-foreground text-base">Notifications</h3>
+          {unreadCount > 0 && (
+            <span className="text-[11px] font-bold bg-primary text-primary-foreground px-2 py-0.5 rounded-full">
+              {unreadCount} new
             </span>
-          ) : null}
+          )}
         </div>
         <div className="flex items-center gap-1">
-          {unreadCount > 0 ? (
+          {unreadCount > 0 && (
             <button
               onClick={onMarkAllRead}
-              className="text-[11px] font-semibold text-primary hover:underline px-1"
+              className="text-xs font-semibold text-primary hover:underline px-2 py-1 rounded-lg hover:bg-primary/8 transition-colors"
             >
               Mark all read
             </button>
-          ) : null}
+          )}
           <button
             onClick={onClose}
             className="w-7 h-7 rounded-full bg-muted flex items-center justify-center hover:bg-muted/80 transition-colors ml-1"
@@ -404,7 +407,7 @@ function HomeLayout() {
 
       {/* Mobile Bottom Nav */}
       <nav className="fixed bottom-0 left-0 right-0 topbar-glass border-t border-border md:hidden z-50">
-        <div className="flex items-center py-1 px-1 safe-area-pb">
+        <div className="flex items-center py-1 px-1 safe-area-pb overflow-x-auto scrollbar-hide">
           {navItems.map((item) => {
             const active = isActive(item.to, item.exact);
             const MobIcon = item.icon;
@@ -412,7 +415,7 @@ function HomeLayout() {
               <Link
                 key={item.to}
                 to={item.to}
-                className="flex-1 flex flex-col items-center gap-0.5 pt-2 pb-1.5"
+                className="flex-1 min-w-[70px] flex flex-col items-center gap-0.5 pt-2 pb-1.5"
               >
                 <div
                   className={`w-12 h-7 flex items-center justify-center rounded-full transition-all duration-200 ${active ? "bg-primary/15" : ""}`}
@@ -422,9 +425,7 @@ function HomeLayout() {
                     className={`transition-colors ${active ? "text-primary" : "text-muted-foreground"}`}
                   />
                 </div>
-                <span
-                  className={`text-[10px] font-semibold transition-colors ${active ? "text-primary" : "text-muted-foreground"}`}
-                >
+                <span className={`text-[10px] whitespace-nowrap font-semibold transition-colors ${active ? "text-primary" : "text-muted-foreground"}`}>
                   {item.label}
                 </span>
               </Link>

@@ -14,6 +14,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as HomeIndexRouteImport } from './routes/home/index'
 import { Route as HomeSearchRouteImport } from './routes/home/search'
 import { Route as HomeProfileRouteImport } from './routes/home/profile'
+import { Route as HomeMedicationsRouteImport } from './routes/home/medications'
 import { Route as HomeAppointmentsRouteImport } from './routes/home/appointments'
 
 const HomeRoute = HomeRouteImport.update({
@@ -41,6 +42,11 @@ const HomeProfileRoute = HomeProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => HomeRoute,
 } as any)
+const HomeMedicationsRoute = HomeMedicationsRouteImport.update({
+  id: '/medications',
+  path: '/medications',
+  getParentRoute: () => HomeRoute,
+} as any)
 const HomeAppointmentsRoute = HomeAppointmentsRouteImport.update({
   id: '/appointments',
   path: '/appointments',
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/home': typeof HomeRouteWithChildren
   '/home/appointments': typeof HomeAppointmentsRoute
+  '/home/medications': typeof HomeMedicationsRoute
   '/home/profile': typeof HomeProfileRoute
   '/home/search': typeof HomeSearchRoute
   '/home/': typeof HomeIndexRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/home/appointments': typeof HomeAppointmentsRoute
+  '/home/medications': typeof HomeMedicationsRoute
   '/home/profile': typeof HomeProfileRoute
   '/home/search': typeof HomeSearchRoute
   '/home': typeof HomeIndexRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/home': typeof HomeRouteWithChildren
   '/home/appointments': typeof HomeAppointmentsRoute
+  '/home/medications': typeof HomeMedicationsRoute
   '/home/profile': typeof HomeProfileRoute
   '/home/search': typeof HomeSearchRoute
   '/home/': typeof HomeIndexRoute
@@ -77,16 +86,24 @@ export interface FileRouteTypes {
     | '/'
     | '/home'
     | '/home/appointments'
+    | '/home/medications'
     | '/home/profile'
     | '/home/search'
     | '/home/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/home/appointments' | '/home/profile' | '/home/search' | '/home'
+  to:
+    | '/'
+    | '/home/appointments'
+    | '/home/medications'
+    | '/home/profile'
+    | '/home/search'
+    | '/home'
   id:
     | '__root__'
     | '/'
     | '/home'
     | '/home/appointments'
+    | '/home/medications'
     | '/home/profile'
     | '/home/search'
     | '/home/'
@@ -134,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeProfileRouteImport
       parentRoute: typeof HomeRoute
     }
+    '/home/medications': {
+      id: '/home/medications'
+      path: '/medications'
+      fullPath: '/home/medications'
+      preLoaderRoute: typeof HomeMedicationsRouteImport
+      parentRoute: typeof HomeRoute
+    }
     '/home/appointments': {
       id: '/home/appointments'
       path: '/appointments'
@@ -146,6 +170,7 @@ declare module '@tanstack/react-router' {
 
 interface HomeRouteChildren {
   HomeAppointmentsRoute: typeof HomeAppointmentsRoute
+  HomeMedicationsRoute: typeof HomeMedicationsRoute
   HomeProfileRoute: typeof HomeProfileRoute
   HomeSearchRoute: typeof HomeSearchRoute
   HomeIndexRoute: typeof HomeIndexRoute
@@ -153,6 +178,7 @@ interface HomeRouteChildren {
 
 const HomeRouteChildren: HomeRouteChildren = {
   HomeAppointmentsRoute: HomeAppointmentsRoute,
+  HomeMedicationsRoute: HomeMedicationsRoute,
   HomeProfileRoute: HomeProfileRoute,
   HomeSearchRoute: HomeSearchRoute,
   HomeIndexRoute: HomeIndexRoute,
